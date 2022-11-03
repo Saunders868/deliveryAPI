@@ -4,12 +4,14 @@ import UserModel, { UserDocument } from "../models/user.model";
 
 export async function createUser(
   input: DocumentDefinition<
-    Omit<UserDocument, "createdAt" | "updatedAt" | "comparePassword">
+    Omit<UserDocument, "createdAt" | "updatedAt" | "comparePassword" | "isAdmin" | "active">
   >
 ) {
   try {
     const user = await UserModel.create(input);
-    return omit(user.toJSON(), "password");
+    // console.log("user: ",user);
+    
+    return omit(user, "password");
   } catch (e: any) {
     throw new Error(e);
   }
@@ -38,6 +40,7 @@ export async function validatePassword({
   return omit(user.toJSON(), "password");
 }
 
+// find a specific user
 export async function findUser(query: FilterQuery<UserDocument>) {
   return UserModel.findOne(query).lean();
 }

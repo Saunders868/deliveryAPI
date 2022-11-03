@@ -41,6 +41,7 @@ export interface UserDocument extends mongoose.Document {
     };
   };
   active: boolean;
+  isAdmin: boolean;
   createdAt: Date;
   updatedAt: Date;
   comparePassword(candidatePassword: string): Promise<boolean>;
@@ -55,7 +56,7 @@ const Email = new mongoose.Schema({
     match: [/\S+@\S+\.\S+/, "is invalid"],
     index: true,
   },
-  validated: { type: Boolean, default: false },
+  validated: { type: Boolean, default: true },
 });
 
 // make point schema for location purposes
@@ -140,6 +141,10 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    }
   },
   {
     timestamps: true,
