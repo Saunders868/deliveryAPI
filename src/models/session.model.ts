@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { UserDocument } from "./user.model";
 
-// user interface
+// session interface
 export interface SessionDocument extends mongoose.Document {
   user: UserDocument["_id"];
   valid: boolean;

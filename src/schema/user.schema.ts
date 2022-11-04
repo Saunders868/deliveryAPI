@@ -16,7 +16,7 @@ export const createUserSchema = object({
       address: string({
         required_error: "Email is required",
       }).email("Not a valid email"),
-      validated: boolean(),
+      validated: boolean().default(true),
     }),
   }).refine((data) => data.password === data.passwordConfirmation, {
     message: "Passwords do not match",
@@ -24,27 +24,35 @@ export const createUserSchema = object({
   }),
 });
 
+// schema for fetching user
+export const getUserSchema = object({
+  params: object({
+    id: string({
+      required_error: "Id of user is required",
+    }),
+  }),
+});
+
 // schema for updating user
 export const updateUserSchema = object({
   body: object({
     username: string({
-      required_error: "Name is required",
+      required_error: "username is required",
     }),
-    password: string({
-      required_error: "Password is required",
-    }).min(6, "Password too short - should be 6 chars minimum"),
-    passwordConfirmation: string({
-      required_error: "Password Confirmation is required",
+  }),
+  params: object({
+    id: string({
+      required_error: "user id is required",
     }),
-    email: object({
-      address: string({
-        required_error: "Email is required",
-      }).email("Not a valid email"),
-      validated: boolean(),
+  }),
+});
+
+// schema for deleting user
+export const deleteUserSchema = object({
+  params: object({
+    id: string({
+      required_error: "Id of user is required",
     }),
-  }).refine((data) => data.password === data.passwordConfirmation, {
-    message: "Passwords do not match",
-    path: ["passwordConfirmation"],
   }),
 });
 
@@ -53,7 +61,6 @@ export type CreateUserInput = Omit<
   "body.passwordConfirmation"
 >;
 
-export type UpdateUserInput = Omit<
-  TypeOf<typeof updateUserSchema>,
-  "body.passwordConfirmation"
->;
+export type UpdateUserInput = TypeOf<typeof updateUserSchema>;
+export type GetUserInput = TypeOf<typeof getUserSchema>;
+export type DeleteUserInput = TypeOf<typeof deleteUserSchema>;

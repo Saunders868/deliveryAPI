@@ -4,6 +4,7 @@ import config from "config";
 const privateKey = config.get<string>("privateKey");
 const publicKey = config.get<string>("publicKey");
 
+// uses the RS256 privatekey to sign jwt token
 export function signJwt(object: Object, options?: jwt.SignOptions | undefined) {
   return jwt.sign(object, privateKey, {
     ...(options && options),
@@ -11,6 +12,7 @@ export function signJwt(object: Object, options?: jwt.SignOptions | undefined) {
   });
 }
 
+// uses the RS256 publickey to verify jwt token
 export function verifyJwt(token: string) {
   try {
     const decoded = jwt.verify(token, publicKey);

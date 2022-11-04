@@ -1,16 +1,7 @@
 import { Express, Request, Response } from "express";
-import {
-  createUserSessionHandler,
-  deleteSessionHandler,
-  getUserSessionsHandler,
-} from "./controllers/session.controller";
-import { createUserHandler } from "./controllers/user.controller";
-import { requireUser } from "./middleware/requireUser";
-import validate from "./middleware/validateResource";
-import { createSessionSchema } from "./schema/session.schema";
-import { createUserSchema } from "./schema/user.schema";
-
 import { userRoutes } from "./routes/users";
+import { productRoutes } from "./routes/products";
+import { sessionRoutes } from "./routes/session";
 
 // create all routes for the project
 function routes(app: Express) {
@@ -19,30 +10,14 @@ function routes(app: Express) {
     res.sendStatus(200);
   });
 
-  app.post("/api/users", validate(createUserSchema), createUserHandler);
+  // session routes
+  app.use("/api/sessions", sessionRoutes);
 
-  app.post(
-    "/api/sessions",
-    validate(createSessionSchema),
-    createUserSessionHandler
-  );
-
-  app.get("/api/sessions", requireUser, getUserSessionsHandler);
-
-  app.delete("/api/sessions", requireUser, deleteSessionHandler);
-
-  // update above routes to match
-  // sign up route
-  // used to create a user
-
+  // users routes
   app.use("/api/users", userRoutes);
 
-  // MAYBE
-  // // create item
-  // // view items
-  // // view specific items
-  // // update specific item
-  // // delete specific item
+  // product routes
+  app.use("/api/products", productRoutes);
 
   // create order
   // create an order full of items to be delivered

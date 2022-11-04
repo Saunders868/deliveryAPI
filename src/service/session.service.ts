@@ -5,16 +5,20 @@ import { signJwt, verifyJwt } from "../utils/jwt.utils";
 import { findUser } from "./user.service";
 import config from "config";
 
+// create a session
 export async function createSession(userId: string, userAgent: string) {
   const session = await SessionModel.create({ user: userId, userAgent });
 
+  // convert/serialize session to json format and return it
   return session.toJSON();
 }
 
+// find session
 export async function findSessions(query: FilterQuery<SessionDocument>) {
   return SessionModel.find(query).lean();
 }
 
+// update session
 export async function updateSession(
   query: FilterQuery<SessionDocument>,
   update: UpdateQuery<SessionDocument>
@@ -22,6 +26,7 @@ export async function updateSession(
   return SessionModel.updateOne(query, update);
 }
 
+// use refresh token to generate new access token when current access token is expired
 export async function reIssueAccessToken({
   refreshToken,
 }: {

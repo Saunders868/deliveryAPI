@@ -1,5 +1,5 @@
 import { omit } from "lodash";
-import { DocumentDefinition, FilterQuery } from "mongoose";
+import { DocumentDefinition, FilterQuery, QueryOptions } from "mongoose";
 import UserModel, { UserDocument } from "../models/user.model";
 
 // create a user
@@ -21,20 +21,36 @@ export async function createUser(
   }
 }
 
+// find a specific user
+export async function findUser(query: FilterQuery<UserDocument>) {
+  return UserModel.findOne(query).lean();
+}
+
 // update a user
 export async function updateUser(
-  filter: object,
+  filter: FilterQuery<UserDocument>,
   input: DocumentDefinition<
-  Omit<
-    UserDocument,
-    "createdAt" | "updatedAt" | "comparePassword" | "isAdmin" | "active" | "password"
-  >>
+    Omit<
+      UserDocument,
+      | "createdAt"
+      | "updatedAt"
+      | "comparePassword"
+      | "isAdmin"
+      | "active"
+      | "password"
+    >
+  >,
+  options: QueryOptions
 ) {
   try {
-    const updatedUser = await UserModel.findOneAndUpdate(filter, input);
+    const updatedUser = await UserModel.findOneAndUpdate(
+      filter,
+      input,
+      options
+    );
     // console.log("find filter: ",filter);
     // console.log("updated user info: ",updateUser);
-    
+
     // console.log("updated user: ",updatedUser);
 
     return omit(updatedUser, "password");
@@ -66,7 +82,7 @@ export async function validatePassword({
   return omit(user.toJSON(), "password");
 }
 
-// find a specific user
-export async function findUser(query: FilterQuery<UserDocument>) {
-  return UserModel.findOne(query).lean();
+// delete a user
+export async function deleteUser(query: FilterQuery<UserDocument>) {
+  return UserModel.deleteOne(query);
 }

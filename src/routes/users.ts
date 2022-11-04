@@ -1,8 +1,20 @@
 import express from "express";
-import { getAllUsersHandler, getUserHandler, updateUserHandler } from "../controllers/user.controller";
+export const userRoutes = express.Router();
+import {
+  createUserHandler,
+  deleteUserHandler,
+  getAllUsersHandler,
+  getUserHandler,
+  updateUserHandler,
+} from "../controllers/user.controller";
 import { requireAdminUser } from "../middleware/adminUser";
 import { requireAuthorizedUser } from "../middleware/userAuth";
-export const userRoutes = express.Router();
+import validate from "../middleware/validateResource";
+import { createUserSchema, deleteUserSchema, getUserSchema, updateUserSchema } from "../schema/user.schema";
+
+// sign up route
+// used to create a user
+userRoutes.post("/", validate(createUserSchema), createUserHandler);
 
 // get all users
 // view users route
@@ -12,14 +24,11 @@ userRoutes.get("/", requireAdminUser, getAllUsersHandler);
 // get user
 // view user route
 // see specific user information RESTRICTED - admin & user
-userRoutes.get("/:id", requireAuthorizedUser, getUserHandler);
+userRoutes.get("/:id", [requireAuthorizedUser, validate(getUserSchema)], getUserHandler);
 
 // update user info RESTRICTED  - profile owner
 // update all info for a specific user
-userRoutes.patch("/:id", requireAuthorizedUser, updateUserHandler);
+userRoutes.patch("/:id", [requireAuthorizedUser, validate(updateUserSchema)], updateUserHandler);
 
-// login route
-// logs user in or starts a session
-
-// logout route
-// logs user out or ends/delete/update a session
+// route to delete a user
+userRoutes.delete("/:id", [requireAuthorizedUser, validate(deleteUserSchema)], deleteUserHandler);
