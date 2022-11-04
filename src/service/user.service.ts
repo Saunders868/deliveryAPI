@@ -2,16 +2,42 @@ import { omit } from "lodash";
 import { DocumentDefinition, FilterQuery } from "mongoose";
 import UserModel, { UserDocument } from "../models/user.model";
 
+// create a user
 export async function createUser(
   input: DocumentDefinition<
-    Omit<UserDocument, "createdAt" | "updatedAt" | "comparePassword" | "isAdmin" | "active">
+    Omit<
+      UserDocument,
+      "createdAt" | "updatedAt" | "comparePassword" | "isAdmin" | "active"
+    >
   >
 ) {
   try {
     const user = await UserModel.create(input);
     // console.log("user: ",user);
-    
+
     return omit(user, "password");
+  } catch (e: any) {
+    throw new Error(e);
+  }
+}
+
+// update a user
+export async function updateUser(
+  filter: object,
+  input: DocumentDefinition<
+  Omit<
+    UserDocument,
+    "createdAt" | "updatedAt" | "comparePassword" | "isAdmin" | "active" | "password"
+  >>
+) {
+  try {
+    const updatedUser = await UserModel.findOneAndUpdate(filter, input);
+    // console.log("find filter: ",filter);
+    // console.log("updated user info: ",updateUser);
+    
+    // console.log("updated user: ",updatedUser);
+
+    return omit(updatedUser, "password");
   } catch (e: any) {
     throw new Error(e);
   }
