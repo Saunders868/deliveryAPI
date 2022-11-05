@@ -2,6 +2,7 @@ import { Express, Request, Response } from "express";
 import { userRoutes } from "./routes/users";
 import { productRoutes } from "./routes/products";
 import { sessionRoutes } from "./routes/session";
+import { orderRoutes } from "./routes/orders";
 
 // create all routes for the project
 function routes(app: Express) {
@@ -19,20 +20,8 @@ function routes(app: Express) {
   // product routes
   app.use("/api/products", productRoutes);
 
-  // create order
-  // create an order full of items to be delivered
-
-  // view orders RESTRICTED
-  // view all orders
-
-  // view order RESTRICTED - admin & order owner
-  // view a specific order
-
-  // update order RESTRICTED - admin & order owner
-  // update specific order
-
-  // delete order RESTRICTED - admin & order owner
-  // delete specific order
+  // order routes
+  app.use("/api/orders", orderRoutes);
 }
 
 export default routes;

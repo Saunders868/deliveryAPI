@@ -3,7 +3,7 @@ import ProductModel, { ProductDocument } from "../models/product.model";
 
 // create a product
 export async function createProduct(
-  input: DocumentDefinition<Omit<ProductDocument, "createdAt" | "updatedAt">>
+  input: DocumentDefinition<Omit<ProductDocument, "createdAt" | "updatedAt" | "id">>
 ) {
   try {
     const product = await ProductModel.create(input);
@@ -25,7 +25,7 @@ export async function findProduct(
 // update a product
 export async function updateProduct(
   filter: FilterQuery<ProductDocument>,
-  input: DocumentDefinition<Omit<ProductDocument, "createdAt" | "updatedAt">>,
+  input: DocumentDefinition<Omit<ProductDocument, "createdAt" | "updatedAt" | "id">>,
   options: QueryOptions
 ) {
   try {

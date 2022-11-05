@@ -7,6 +7,7 @@ import {
   updateProductHandler,
 } from "../controllers/product.controller";
 import { requireAdminUser } from "../middleware/adminUser";
+import { requireUser } from "../middleware/requireUser";
 import validate from "../middleware/validateResource";
 import {
   createProductSchema,
@@ -26,14 +27,14 @@ productRoutes.post(
 // get all products
 productRoutes.get(
   "/",
-  requireAdminUser,
+  requireUser,
   getAllProductsHandler
 );
 
 // get a product
 productRoutes.get(
   "/:productId",
-  [requireAdminUser, validate(getProductSchema)],
+  [requireUser, validate(getProductSchema)],
   getProductHandler
 );
 
