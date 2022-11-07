@@ -3,7 +3,7 @@ export default {
   port: 1337,
   dbUri: "mongodb+srv://deliveryadmin:deliveryadmin6721@cluster0.oxtui8m.mongodb.net/?retryWrites=true&w=majority",
   saltWorkFactor: 10,
-  accessTokenTtl: "15m",
+  accessTokenTtl: "30m",
   refreshTokenTtl: "1y",
   privateKey: `-----BEGIN RSA PRIVATE KEY-----
 MIICXgIBAAKBgQDgmKPgrHdvwNxVQvTha9opu5NngRUS7F8zykjFkRah3r0ZoVkA

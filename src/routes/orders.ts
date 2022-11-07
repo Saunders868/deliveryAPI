@@ -7,6 +7,7 @@ import {
   updateOrderHandler,
 } from "../controllers/order.controller";
 import { requireAdminUser } from "../middleware/adminUser";
+import { requireUser } from "../middleware/requireUser";
 import validate from "../middleware/validateResource";
 import {
   createOrderSchema,
@@ -33,11 +34,11 @@ orderRoutes.get("/", requireAdminUser, getAllOrdersHandler);
 // view a specific order
 orderRoutes.get(
   "/:orderId",
-  [requireAdminUser, validate(getOrderSchema)],
+  [requireUser, validate(getOrderSchema)],
   getOrderHandler
 );
 
-// update order RESTRICTED - admin & order owner
+// update order RESTRICTED - admin 
 // update specific order
 orderRoutes.patch(
   "/:orderId",
@@ -45,7 +46,7 @@ orderRoutes.patch(
   updateOrderHandler
 );
 
-// delete order RESTRICTED - admin & order owner
+// delete order RESTRICTED - admin 
 // delete specific order
 orderRoutes.delete(
   "/:orderId",

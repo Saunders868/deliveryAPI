@@ -3,6 +3,7 @@ import { userRoutes } from "./routes/users";
 import { productRoutes } from "./routes/products";
 import { sessionRoutes } from "./routes/session";
 import { orderRoutes } from "./routes/orders";
+import { cartRoutes } from "./routes/carts";
 
 // create all routes for the project
 function routes(app: Express) {
@@ -22,6 +23,9 @@ function routes(app: Express) {
 
   // order routes
   app.use("/api/orders", orderRoutes);
+
+  // cart routes
+  app.use("/api/carts", cartRoutes);
 }
 
 export default routes;
