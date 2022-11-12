@@ -13,7 +13,6 @@ export async function createUser(
 ) {
   try {
     const user = await UserModel.create(input);
-    // console.log("user: ",user);
 
     return omit(user, "password");
   } catch (e: any) {
@@ -49,10 +48,6 @@ export async function updateUser(
       input,
       options
     );
-    // console.log("find filter: ",filter);
-    // console.log("updated user info: ",updateUser);
-
-    // console.log("updated user: ",updatedUser);
 
     return omit(updatedUser, "password");
   } catch (e: any) {
