@@ -37,6 +37,7 @@ export async function updateUser(
       | "comparePassword"
       | "isAdmin"
       | "active"
+      | "email"
       | "password"
     >
   >,

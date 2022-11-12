@@ -12,5 +12,5 @@ export const requireAuthorizedUser = (
     return next();
   }
 
-  return res.sendStatus(403);
+  return res.sendStatus(401);
 };
