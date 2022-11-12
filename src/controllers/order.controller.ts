@@ -7,13 +7,13 @@ import {
   GetOrderInput,
   UpdateOrderInput,
 } from "../schema/order.schema";
+import { findCart } from "../service/cart.service";
 import {
   createOrder,
   deleteOrder,
   findOrder,
   updateOrder,
 } from "../service/order.service";
-import { findProduct } from "../service/product.service";
 import logger from "../utils/logger";
 
 // create a order
@@ -23,30 +23,19 @@ export async function createOrderHandler(
 ) {
   try {
     const userId = res.locals.user._id;
-    const items = [Object(mongoose.Schema.Types.ObjectId)];
+    const cart = await findCart({ user: userId });
+
     const body = req.body;
-    const order = await createOrder({ ...body, user: userId, items: items });
-    return res.send(order);
+
+    if (cart) {
+      const order = await createOrder({ ...body, user: userId, cart: cart.id });
+      return res.send(order);
+    }
+    return res.sendStatus(404);
   } catch (error: any) {
     logger.error(error);
     res.status(409).send(error.message);
   }
-}
-
-// finds the product and order objects to add to the items array in orders
-// create a cart (POST)
-// store in res.locals / local storage
-// get cart when adding product to it(find cart then push to it/ update it)
-// add to cart
-// make the cart an object with an array of strings. the string in this case would be the product ids, also a quantity value
-// put the cart into the order document. the cart would contain the product ids which you can then use to find the products
-export async function createOrderHelper(productId: string, orderId: string) {
-  const product = await findProduct({ productId });
-  const order = await findOrder({ orderId });
-  console.log("order: ",order);
-  console.log("product: ",product);
-  
-  return {product, order}
 }
 
 // get all orders
@@ -76,6 +65,7 @@ export async function getOrderHandler(
 }
 
 // update a order
+// basically if it is completed or not
 export async function updateOrderHandler(
   req: Request<UpdateOrderInput["params"], {}, UpdateOrderInput["body"]>,
   res: Response

@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 import { v4 as uuidv4 } from "uuid";
-import { ProductDocument } from "./product.model";
+import { CartDocument } from "./cart.model";
 import { UserDocument } from "./user.model";
 
 // order interface
 export interface OrderDocument extends mongoose.Document {
   id: string;
   user: UserDocument["_id"];
-  items: [ProductDocument["_id"]];
+  cart: CartDocument["id"];
   isCompleted: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -25,12 +25,10 @@ const orderSchema = new mongoose.Schema(
       unique: true,
       default: () => `order_${uuidv4()}`,
     },
-    items: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
-      },
-    ],
+    cart: {
+      type: String,
+      ref: "Cart",
+    },
     isCompleted: {
       type: Boolean,
       required: true,

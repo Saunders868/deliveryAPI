@@ -25,7 +25,7 @@ export async function findOrder(
 // update a order
 export async function updateOrder(
   filter: FilterQuery<OrderDocument>,
-  input: DocumentDefinition<Omit<OrderDocument, "createdAt" | "updatedAt" | "id" | "items">>,
+  input: DocumentDefinition<Omit<OrderDocument, "createdAt" | "updatedAt" | "id" | "cart">>,
   options: QueryOptions
 ) {
   try {
