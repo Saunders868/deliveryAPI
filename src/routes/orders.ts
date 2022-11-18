@@ -22,7 +22,7 @@ export const orderRoutes = express.Router();
 // create an order full of items to be delivered
 orderRoutes.post(
   "/",
-  [requireAdminUser, validate(createOrderSchema)],
+  [requireUser, validate(createOrderSchema)],
   createOrderHandler
 );
 

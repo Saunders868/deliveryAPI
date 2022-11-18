@@ -17,7 +17,8 @@ export const deserializeUser = async (
     return next();
   }
 
-  const refreshToken = get(req, "headers.x-refresh");
+  const firstToken = get(req, "headers.x-refresh");
+  const refreshToken = firstToken as string;
 
   const { decoded, expired } = verifyJwt(accessToken);
   
@@ -34,7 +35,7 @@ export const deserializeUser = async (
       res.setHeader("x-access-token", newAccesToken);
     }
 
-    const result = verifyJwt(newAccesToken);
+    const result = verifyJwt(newAccesToken as string);
 
     res.locals.user = result.decoded;
 
