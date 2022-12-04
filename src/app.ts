@@ -5,7 +5,8 @@ import createServer from "./utils/server";
 
 const port = config.get<number>("port");
 
-const app = createServer()
+const app = createServer();
+// app.use(cors({origin: 'http://localhost:1337'}));
 
 app.listen(port, async () => {
   logger.info(`App is running at http://localhost:${port}`);
