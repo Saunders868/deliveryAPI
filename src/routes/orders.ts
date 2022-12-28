@@ -38,7 +38,7 @@ orderRoutes.get(
   getOrderHandler
 );
 
-// update order RESTRICTED - admin 
+// update order RESTRICTED - admin
 // update specific order
 orderRoutes.patch(
   "/:orderId",
@@ -46,7 +46,7 @@ orderRoutes.patch(
   updateOrderHandler
 );
 
-// delete order RESTRICTED - admin 
+// delete order RESTRICTED - admin
 // delete specific order
 orderRoutes.delete(
   "/:orderId",

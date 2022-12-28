@@ -25,11 +25,7 @@ productRoutes.post(
 );
 
 // get all products
-productRoutes.get(
-  "/",
-  requireUser,
-  getAllProductsHandler
-);
+productRoutes.get("/", requireUser, getAllProductsHandler);
 
 // get a product
 productRoutes.get(

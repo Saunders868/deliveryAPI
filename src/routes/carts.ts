@@ -8,6 +8,7 @@ import {
 } from "../controllers/cart.controller";
 import { requireAdminUser } from "../middleware/adminUser";
 import { requireUser } from "../middleware/requireUser";
+import { requireAuthorizedUser } from "../middleware/userAuth";
 import validate from "../middleware/validateResource";
 import {
   createCartSchema,
@@ -34,7 +35,7 @@ cartRoutes.get("/", requireAdminUser, getAllCartsHandler);
 // view a specific cart
 cartRoutes.get(
   "/:cartId",
-  [requireUser, validate(getCartSchema)],
+  [requireAuthorizedUser, validate(getCartSchema)],
   getCartHandler
 );
 
@@ -42,7 +43,7 @@ cartRoutes.get(
 // update specific cart
 cartRoutes.patch(
   "/:cartId",
-  [requireUser, validate(updateCartSchema)],
+  [requireAuthorizedUser, validate(updateCartSchema)],
   updateCartHandler
 );
 
@@ -52,6 +53,6 @@ cartRoutes.patch(
 // delete specific cart
 cartRoutes.delete(
   "/:cartId",
-  [requireUser, validate(deleteCartSchema)],
+  [requireAuthorizedUser, validate(deleteCartSchema)],
   deleteCartHandler
 );

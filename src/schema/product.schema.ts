@@ -51,7 +51,7 @@ export const updateProductSchema = object({
     }),
     desc: string({
       required_error: "description is required",
-    }).min(120, "desc shoild be at least 120 chars"),
+    }).min(120, "desc should be at least 120 chars"),
     price: number({
       required_error: "price is required",
     }),
